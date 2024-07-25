@@ -1,4 +1,4 @@
-package com.yas.webhook.viewmodel.webhook;
+package com.yas.webhook.model.viewmodel.webhook;
 
 import lombok.Data;
 import lombok.Getter;

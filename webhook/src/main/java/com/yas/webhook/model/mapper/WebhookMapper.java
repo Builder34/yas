@@ -1,7 +1,7 @@
-package com.yas.webhook.mapper;
+package com.yas.webhook.model.mapper;
 
 import com.yas.webhook.model.WebHook;
-import com.yas.webhook.viewmodel.webhook.WebhookVm;
+import com.yas.webhook.model.viewmodel.webhook.WebhookVm;
 import org.mapstruct.Mapper;
 
 @Mapper

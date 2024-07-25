@@ -1,13 +1,13 @@
-package com.yas.webhook.exception;
+package com.yas.webhook.config.exception;
 
 
 import com.yas.webhook.utils.MessagesUtils;
 
-public class NotFoundException extends RuntimeException {
+public class BadRequestException extends RuntimeException {
 
   private String message;
 
-  public NotFoundException(String errorCode, Object... var2) {
+  public BadRequestException(String errorCode, Object... var2) {
     this.message = MessagesUtils.getMessage(errorCode, var2);
   }
 
@@ -20,4 +20,3 @@ public class NotFoundException extends RuntimeException {
     this.message = message;
   }
 }
-

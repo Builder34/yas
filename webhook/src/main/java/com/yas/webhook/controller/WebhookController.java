@@ -1,12 +1,12 @@
 package com.yas.webhook.controller;
 
-import com.yas.webhook.constants.ApiConstant;
-import com.yas.webhook.constants.PageableConstant;
+import com.yas.webhook.config.constants.ApiConstant;
+import com.yas.webhook.config.constants.PageableConstant;
+import com.yas.webhook.model.viewmodel.error.ErrorVm;
+import com.yas.webhook.model.viewmodel.webhook.WebhookListGetVm;
+import com.yas.webhook.model.viewmodel.webhook.WebhookPostVm;
+import com.yas.webhook.model.viewmodel.webhook.WebhookVm;
 import com.yas.webhook.service.WebhookService;
-import com.yas.webhook.viewmodel.error.ErrorVm;
-import com.yas.webhook.viewmodel.webhook.WebhookListGetVm;
-import com.yas.webhook.viewmodel.webhook.WebhookPostVm;
-import com.yas.webhook.viewmodel.webhook.WebhookVm;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -23,7 +23,7 @@ import java.util.List;
 public class WebhookController {
   private final WebhookService webhookService;
 
-  public WebhookController(WebhookService  webhookService) {
+  public WebhookController(WebhookService webhookService) {
     this.webhookService = webhookService;
   }
 

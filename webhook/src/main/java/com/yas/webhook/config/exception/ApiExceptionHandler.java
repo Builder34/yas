@@ -1,6 +1,6 @@
-package com.yas.webhook.exception;
+package com.yas.webhook.config.exception;
 
-import com.yas.webhook.viewmodel.error.ErrorVm;
+import com.yas.webhook.model.viewmodel.error.ErrorVm;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;

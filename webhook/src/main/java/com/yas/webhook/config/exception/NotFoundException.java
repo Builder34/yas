@@ -1,13 +1,13 @@
-package com.yas.webhook.exception;
+package com.yas.webhook.config.exception;
 
 
 import com.yas.webhook.utils.MessagesUtils;
 
-public class DuplicatedException extends RuntimeException {
+public class NotFoundException extends RuntimeException {
 
   private String message;
 
-  public DuplicatedException(String errorCode, Object... var2) {
+  public NotFoundException(String errorCode, Object... var2) {
     this.message = MessagesUtils.getMessage(errorCode, var2);
   }
 
@@ -20,3 +20,4 @@ public class DuplicatedException extends RuntimeException {
     this.message = message;
   }
 }
+

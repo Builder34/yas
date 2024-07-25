@@ -1,22 +1,50 @@
 package com.yas.webhook.service;
 
-import com.yas.webhook.viewmodel.webhook.WebhookListGetVm;
-import com.yas.webhook.viewmodel.webhook.WebhookPostVm;
-import com.yas.webhook.viewmodel.webhook.WebhookVm;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.yas.webhook.repository.WebhookRepository;
+import com.yas.webhook.model.viewmodel.webhook.WebhookListGetVm;
+import com.yas.webhook.model.viewmodel.webhook.WebhookPostVm;
+import com.yas.webhook.model.viewmodel.webhook.WebhookVm;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
-public interface WebhookService {
+@Service
+@Transactional
+public class WebhookService {
 
-    WebhookListGetVm getPageableWebhooks(int pageNo, int pageSize);
+  private final WebhookRepository webhookRepository;
 
-    List<WebhookVm> findAllWebhooks();
+  public WebhookService(WebhookRepository webhookRepository) {
+    this.webhookRepository = webhookRepository;
+  }
 
-    WebhookVm findById(Long id);
+  public WebhookListGetVm getPageableWebhooks(int pageNo, int pageSize) {
+    return null;
+  }
 
-    WebhookVm create(WebhookPostVm webhookPostVm);
+  public List<WebhookVm> findAllWebhooks() {
+    return List.of();
+  }
 
-    void update(WebhookPostVm webhookPostVm, Long id);
+  public WebhookVm findById(Long id) {
+    return null;
+  }
 
-    void delete(Long id);
+  public WebhookVm create(WebhookPostVm webhookPostVm) {
+    return null;
+  }
+
+  public void update(WebhookPostVm webhookPostVm, Long id) {
+
+  }
+
+  public void delete(Long id) {
+
+  }
+
+  public void handleEvent(JsonNode jsonNode) {
+    
+  }
 }

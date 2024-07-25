@@ -1,13 +1,13 @@
-package com.yas.webhook.exception;
+package com.yas.webhook.config.exception;
 
 
 import com.yas.webhook.utils.MessagesUtils;
 
-public class BadRequestException extends RuntimeException {
+public class DuplicatedException extends RuntimeException {
 
   private String message;
 
-  public BadRequestException(String errorCode, Object... var2) {
+  public DuplicatedException(String errorCode, Object... var2) {
     this.message = MessagesUtils.getMessage(errorCode, var2);
   }
 

@@ -1,4 +1,4 @@
-package com.yas.webhook.viewmodel.error;
+package com.yas.webhook.model.viewmodel.error;
 
 import java.util.ArrayList;
 import java.util.List;

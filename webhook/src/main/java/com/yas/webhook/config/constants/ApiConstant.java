@@ -1,4 +1,4 @@
-package com.yas.webhook.constants;
+package com.yas.webhook.config.constants;
 
 public final class ApiConstant {
     public static final String WEBHOOK_URL = "/backoffice/webhooks";

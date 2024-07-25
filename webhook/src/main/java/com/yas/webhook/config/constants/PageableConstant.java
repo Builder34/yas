@@ -1,4 +1,4 @@
-package com.yas.webhook.constants;
+package com.yas.webhook.config.constants;
 
 public final class PageableConstant {
 
