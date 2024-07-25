@@ -3,10 +3,8 @@ package com.yas.webhook.model;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,7 +14,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class HookEvent {
+public class HookEvent extends AbstractAuditEntity{
 
   @Column(name = "hookId")
   private Long hookId;
@@ -26,7 +24,7 @@ public class HookEvent {
 
   @ManyToOne
   @JoinColumn(name = "hook_id", updatable = false)
-  private Hook hook;
+  private WebHook hook;
 
   @ManyToOne
   @JoinColumn(name = "event_id", updatable = false)

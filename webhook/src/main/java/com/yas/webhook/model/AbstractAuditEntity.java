@@ -1,6 +1,7 @@
 package com.yas.webhook.model;
 
 import com.yas.webhook.listener.CustomAuditingEntityListener;
+import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
@@ -19,14 +20,18 @@ import java.time.ZonedDateTime;
 public class AbstractAuditEntity {
 
   @CreationTimestamp
+  @Column(name = "created_on")
   private ZonedDateTime createdOn;
 
   @CreatedBy
+  @Column(name = "created_by")
   private String createdBy;
 
   @UpdateTimestamp
+  @Column(name = "last_modified_on")
   private ZonedDateTime lastModifiedOn;
 
   @LastModifiedBy
+  @Column(name = "last_modified_by")
   private String lastModifiedBy;
 }
