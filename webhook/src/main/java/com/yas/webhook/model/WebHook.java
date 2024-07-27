@@ -1,13 +1,7 @@
 package com.yas.webhook.model;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
 import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -31,6 +25,7 @@ public class WebHook {
   @Column(name = "is_active")
   private Boolean isActive;
 
-  @OneToMany(fetch = FetchType.LAZY)
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   List<HookEvent> hookEvents;
+
 }
