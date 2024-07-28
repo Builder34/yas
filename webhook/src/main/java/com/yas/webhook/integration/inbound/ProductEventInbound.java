@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class ProductEventInbound {
 
-  private ProductEventService productEventService;
+  private final ProductEventService productEventService;
 
   @KafkaListener(topics = {
       "${webhook.integration.kafka.product.topic-name}"}, groupId = "${spring.kafka.consumer.group-id}")

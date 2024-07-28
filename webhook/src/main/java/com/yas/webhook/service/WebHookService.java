@@ -5,7 +5,7 @@ import com.yas.webhook.config.constants.MessageCode;
 import com.yas.webhook.config.exception.NotFoundException;
 import com.yas.webhook.integration.api.WebHookApi;
 import com.yas.webhook.model.Event;
-import com.yas.webhook.model.HookEvent;
+import com.yas.webhook.model.WebhookEvent;
 import com.yas.webhook.model.WebHook;
 import com.yas.webhook.model.mapper.WebHookMapper;
 import com.yas.webhook.model.viewmodel.webhook.HookEventVm;
@@ -75,22 +75,22 @@ public class WebHookService {
 
   private WebHook initializeCreatedWebHook(WebHookPostVm webhookPostVm){
     WebHook createdWebhook = webhookMapper.toCreatedWebhook(webhookPostVm);
-    List<HookEvent> hookEvents = initializeHookEvents(createdWebhook, webhookPostVm.getHookEventVms());
+    List<WebhookEvent> hookEvents = initializeHookEvents(createdWebhook, webhookPostVm.getHookEventVms());
     createdWebhook.setHookEvents(hookEvents);
     return createdWebhook;
   }
 
   private WebHook initializeUpdatedWebHook(WebHook webHook, WebHookPostVm webhookPostVm) {
     WebHook updatedWebhook = webhookMapper.toUpdatedWebhook(webHook, webhookPostVm);
-    List<HookEvent> hookEvents = initializeHookEvents(updatedWebhook, webhookPostVm.getHookEventVms());
+    List<WebhookEvent> hookEvents = initializeHookEvents(updatedWebhook, webhookPostVm.getHookEventVms());
     updatedWebhook.setHookEvents(hookEvents);
     return updatedWebhook;
   }
 
-  private List<HookEvent> initializeHookEvents(WebHook webHook, List<HookEventVm> hookEventVms) {
+  private List<WebhookEvent> initializeHookEvents(WebHook webHook, List<HookEventVm> hookEventVms) {
     return hookEventVms.stream().map(hookEventVm -> {
-      HookEvent hookEvent = new HookEvent();
-      hookEvent.setHook(webHook);
+      WebhookEvent hookEvent = new WebhookEvent();
+      hookEvent.setWebhook(webHook);
       Event event = eventRepository.findById(hookEventVm.getEventId())
               .orElseThrow(() -> new NotFoundException(MessageCode.EVENT_NOT_FOUND, hookEventVm.getEventId()));
       hookEvent.setEvent(event);

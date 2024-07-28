@@ -1,6 +1,6 @@
 package com.yas.webhook.model.mapper;
 
-import com.yas.webhook.model.HookEvent;
+import com.yas.webhook.model.WebhookEvent;
 import com.yas.webhook.model.WebHook;
 import com.yas.webhook.model.viewmodel.webhook.HookEventVm;
 import com.yas.webhook.model.viewmodel.webhook.WebHookListGetVm;
@@ -21,7 +21,7 @@ public interface WebHookMapper {
     WebHookVm toWebhookVm(WebHook webhook);
 
     @Named("toHookEventVms")
-    default List<HookEventVm> toHookEventVms(List<HookEvent> hookEvents){
+    default List<HookEventVm> toHookEventVms(List<WebhookEvent> hookEvents){
         return hookEvents.stream().map(hookEvent
                 -> HookEventVm.builder()
                 .eventId(hookEvent.getEventId())

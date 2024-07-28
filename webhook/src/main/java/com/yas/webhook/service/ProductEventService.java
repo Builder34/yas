@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.yas.webhook.config.constants.MessageCode;
 import com.yas.webhook.config.exception.NotFoundException;
 import com.yas.webhook.model.Event;
-import com.yas.webhook.model.HookEvent;
+import com.yas.webhook.model.WebhookEvent;
 import com.yas.webhook.model.enumeration.EventName;
 import com.yas.webhook.model.enumeration.Operation;
 import com.yas.webhook.repository.EventRepository;
@@ -27,9 +27,9 @@ public class ProductEventService {
     }
     Event event = eventRepository.findByName(EventName.ON_PRODUCT_UPDATED)
         .orElseThrow(() -> new NotFoundException(MessageCode.EVENT_NOT_FOUND, EventName.ON_PRODUCT_UPDATED));
-    List<HookEvent> hookEvents = event.getHookEvents();
+    List<WebhookEvent> hookEvents = event.getWebhookEvents();
     hookEvents.forEach(hookEvent -> {
-      String url = hookEvent.getHook().getPayloadUrl();
+      String url = hookEvent.getWebhook().getPayloadUrl();
       JsonNode payload = updatedEvent.get("after");
 
       webHookService.notifyToWebhook(url, payload);

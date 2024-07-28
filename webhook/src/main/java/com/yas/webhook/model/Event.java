@@ -17,9 +17,10 @@ public class Event {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
+  @Enumerated(EnumType.STRING)
   private EventName name;
   private String description;
 
   @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
-  private List<HookEvent> hookEvents;
+  private List<WebhookEvent> webhookEvents;
 }

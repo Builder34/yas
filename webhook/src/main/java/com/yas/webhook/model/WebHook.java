@@ -12,7 +12,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
-public class WebHook {
+public class WebHook extends AbstractAuditEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
@@ -25,7 +25,7 @@ public class WebHook {
   @Column(name = "is_active")
   private Boolean isActive;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "hook")
-  List<HookEvent> hookEvents;
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "webhook")
+  List<WebhookEvent> hookEvents;
 
 }
