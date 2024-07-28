@@ -23,10 +23,10 @@ public class HookEvent extends AbstractAuditEntity{
   private Long eventId;
 
   @ManyToOne
-  @JoinColumn(name = "hook_id", updatable = false)
+  @JoinColumn(name = "hook_id", updatable = false, insertable = false)
   private WebHook hook;
 
   @ManyToOne
-  @JoinColumn(name = "event_id", updatable = false)
+  @JoinColumn(name = "event_id", updatable = false, insertable = false)
   private Event event;
 }

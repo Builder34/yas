@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@Table(name = "web_hook")
+@Table(name = "webhook")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,7 +25,7 @@ public class WebHook {
   @Column(name = "is_active")
   private Boolean isActive;
 
-  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "hook")
   List<HookEvent> hookEvents;
 
 }

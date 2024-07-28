@@ -3,6 +3,7 @@ package com.yas.webhook.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.yas.webhook.config.constants.MessageCode;
 import com.yas.webhook.config.exception.NotFoundException;
+import com.yas.webhook.integration.api.WebHookApi;
 import com.yas.webhook.model.Event;
 import com.yas.webhook.model.HookEvent;
 import com.yas.webhook.model.WebHook;
@@ -13,9 +14,11 @@ import com.yas.webhook.repository.WebHookRepository;
 import com.yas.webhook.model.viewmodel.webhook.WebHookListGetVm;
 import com.yas.webhook.model.viewmodel.webhook.WebHookPostVm;
 import com.yas.webhook.model.viewmodel.webhook.WebHookVm;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -23,17 +26,13 @@ import java.util.List;
 
 @Service
 @Transactional
+@RequiredArgsConstructor
 public class WebHookService {
 
   private final WebHookRepository webhookRepository;
   private final EventRepository eventRepository;
   private final WebHookMapper webhookMapper;
-
-  public WebHookService(WebHookRepository webhookRepository, EventRepository eventRepository, WebHookMapper webhookMapper) {
-    this.webhookRepository = webhookRepository;
-      this.eventRepository = eventRepository;
-      this.webhookMapper = webhookMapper;
-  }
+  private final WebHookApi webHookApi;
 
   public WebHookListGetVm getPageableWebhooks(int pageNo, int pageSize) {
     PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id"));
@@ -69,8 +68,9 @@ public class WebHookService {
     webhookRepository.deleteById(id);
   }
 
-  public void handleEvent(JsonNode jsonNode) {
-    
+  @Async
+  public void notifyToWebhook(String url, JsonNode payload) {
+    webHookApi.notify(url, payload);
   }
 
   private WebHook initializeCreatedWebHook(WebHookPostVm webhookPostVm){

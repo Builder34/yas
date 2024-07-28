@@ -1,7 +1,8 @@
 package com.yas.webhook.model;
 
-import com.yas.webhook.model.enumeration.WebHookEvent;
+import com.yas.webhook.model.enumeration.EventName;
 import jakarta.persistence.*;
+import java.util.List;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -16,6 +17,9 @@ public class Event {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
-  private WebHookEvent name;
+  private EventName name;
   private String description;
+
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "event")
+  private List<HookEvent> hookEvents;
 }

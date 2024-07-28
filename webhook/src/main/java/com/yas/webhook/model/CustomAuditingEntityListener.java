@@ -1,6 +1,5 @@
-package com.yas.webhook.listener;
+package com.yas.webhook.model;
 
-import com.yas.webhook.model.AbstractAuditEntity;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import org.springframework.beans.factory.ObjectFactory;
