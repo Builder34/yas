@@ -7,7 +7,7 @@ import org.springframework.web.client.RestClient;
 
 @Component
 @RequiredArgsConstructor
-public class WebHookApi {
+public class WebhookApi {
 
   private final RestClient restClient;
 

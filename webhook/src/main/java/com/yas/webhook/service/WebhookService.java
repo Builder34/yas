@@ -3,17 +3,17 @@ package com.yas.webhook.service;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.yas.webhook.config.constants.MessageCode;
 import com.yas.webhook.config.exception.NotFoundException;
-import com.yas.webhook.integration.api.WebHookApi;
+import com.yas.webhook.integration.api.WebhookApi;
 import com.yas.webhook.model.Event;
+import com.yas.webhook.model.Webhook;
 import com.yas.webhook.model.WebhookEvent;
-import com.yas.webhook.model.WebHook;
-import com.yas.webhook.model.mapper.WebHookMapper;
+import com.yas.webhook.model.mapper.WebhookMapper;
 import com.yas.webhook.model.viewmodel.webhook.HookEventVm;
+import com.yas.webhook.model.viewmodel.webhook.WebhookPostVm;
+import com.yas.webhook.model.viewmodel.webhook.WebhookVm;
 import com.yas.webhook.repository.EventRepository;
-import com.yas.webhook.repository.WebHookRepository;
-import com.yas.webhook.model.viewmodel.webhook.WebHookListGetVm;
-import com.yas.webhook.model.viewmodel.webhook.WebHookPostVm;
-import com.yas.webhook.model.viewmodel.webhook.WebHookVm;
+import com.yas.webhook.repository.WebhookRepository;
+import com.yas.webhook.model.viewmodel.webhook.WebhookListGetVm;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -27,37 +27,37 @@ import java.util.List;
 @Service
 @Transactional
 @RequiredArgsConstructor
-public class WebHookService {
+public class WebhookService {
 
-  private final WebHookRepository webhookRepository;
+  private final WebhookRepository webhookRepository;
   private final EventRepository eventRepository;
-  private final WebHookMapper webhookMapper;
-  private final WebHookApi webHookApi;
+  private final WebhookMapper webhookMapper;
+  private final WebhookApi webHookApi;
 
-  public WebHookListGetVm getPageableWebhooks(int pageNo, int pageSize) {
+  public WebhookListGetVm getPageableWebhooks(int pageNo, int pageSize) {
     PageRequest pageRequest = PageRequest.of(pageNo, pageSize, Sort.by(Sort.Direction.DESC, "id"));
-    Page<WebHook> webhooks = webhookRepository.findAll(pageRequest);
+    Page<Webhook> webhooks = webhookRepository.findAll(pageRequest);
     return webhookMapper.toWebhookListGetVm(webhooks, pageNo, pageSize);
   }
 
-  public List<WebHookVm> findAllWebhooks() {
-    List<WebHook> webhooks = webhookRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
+  public List<WebhookVm> findAllWebhooks() {
+    List<Webhook> webhooks = webhookRepository.findAll(Sort.by(Sort.Direction.DESC, "id"));
     return webhooks.stream().map(webhookMapper::toWebhookVm).toList();
   }
 
-  public WebHookVm findById(Long id) {
+  public WebhookVm findById(Long id) {
     return webhookMapper.toWebhookVm(webhookRepository.findById(id).orElseThrow(() -> new NotFoundException(MessageCode.WEBHOOK_NOT_FOUND, id)));
   }
 
-  public WebHookVm create(WebHookPostVm webhookPostVm) {
-    WebHook createdWebhook = this.initializeCreatedWebHook(webhookPostVm);
-    WebHook webHook = webhookRepository.save(createdWebhook);
+  public WebhookVm create(WebhookPostVm webhookPostVm) {
+    Webhook createdWebhook = this.initializeCreatedWebHook(webhookPostVm);
+    Webhook webHook = webhookRepository.save(createdWebhook);
     return webhookMapper.toWebhookVm(webHook);
   }
 
-  public void update(WebHookPostVm webhookPostVm, Long id) {
-    WebHook webHook = webhookRepository.findById(id).orElseThrow(() -> new NotFoundException(MessageCode.WEBHOOK_NOT_FOUND, id));
-    WebHook updatedWebhook = this.initializeUpdatedWebHook(webHook, webhookPostVm);
+  public void update(WebhookPostVm webhookPostVm, Long id) {
+    Webhook webHook = webhookRepository.findById(id).orElseThrow(() -> new NotFoundException(MessageCode.WEBHOOK_NOT_FOUND, id));
+    Webhook updatedWebhook = this.initializeUpdatedWebHook(webHook, webhookPostVm);
     webhookRepository.save(updatedWebhook);
   }
 
@@ -73,21 +73,21 @@ public class WebHookService {
     webHookApi.notify(url, payload);
   }
 
-  private WebHook initializeCreatedWebHook(WebHookPostVm webhookPostVm){
-    WebHook createdWebhook = webhookMapper.toCreatedWebhook(webhookPostVm);
+  private Webhook initializeCreatedWebHook(WebhookPostVm webhookPostVm){
+    Webhook createdWebhook = webhookMapper.toCreatedWebhook(webhookPostVm);
     List<WebhookEvent> hookEvents = initializeHookEvents(createdWebhook, webhookPostVm.getHookEventVms());
     createdWebhook.setHookEvents(hookEvents);
     return createdWebhook;
   }
 
-  private WebHook initializeUpdatedWebHook(WebHook webHook, WebHookPostVm webhookPostVm) {
-    WebHook updatedWebhook = webhookMapper.toUpdatedWebhook(webHook, webhookPostVm);
+  private Webhook initializeUpdatedWebHook(Webhook webHook, WebhookPostVm webhookPostVm) {
+    Webhook updatedWebhook = webhookMapper.toUpdatedWebhook(webHook, webhookPostVm);
     List<WebhookEvent> hookEvents = initializeHookEvents(updatedWebhook, webhookPostVm.getHookEventVms());
     updatedWebhook.setHookEvents(hookEvents);
     return updatedWebhook;
   }
 
-  private List<WebhookEvent> initializeHookEvents(WebHook webHook, List<HookEventVm> hookEventVms) {
+  private List<WebhookEvent> initializeHookEvents(Webhook webHook, List<HookEventVm> hookEventVms) {
     return hookEventVms.stream().map(hookEventVm -> {
       WebhookEvent hookEvent = new WebhookEvent();
       hookEvent.setWebhook(webHook);

@@ -18,7 +18,7 @@ import org.springframework.stereotype.Service;
 public class ProductEventService {
 
   private final EventRepository eventRepository;
-  private final WebHookService webHookService;
+  private final WebhookService webhookService;
 
   public void onUpdatedProductEvent(JsonNode updatedEvent) {
     String operation = updatedEvent.get("op").asText();
@@ -32,7 +32,7 @@ public class ProductEventService {
       String url = hookEvent.getWebhook().getPayloadUrl();
       JsonNode payload = updatedEvent.get("after");
 
-      webHookService.notifyToWebhook(url, payload);
+      webhookService.notifyToWebhook(url, payload);
     });
   }
 

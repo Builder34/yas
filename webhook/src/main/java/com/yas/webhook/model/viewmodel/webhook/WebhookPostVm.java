@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class WebHookPostVm {
+public class WebhookPostVm {
     String payloadUrl;
     String secret;
     String contentType;

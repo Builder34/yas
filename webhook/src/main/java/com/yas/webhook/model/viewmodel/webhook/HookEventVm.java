@@ -8,5 +8,5 @@ import lombok.Data;
 @Builder
 public class HookEventVm {
     long eventId;
-    EventName webHookEvent;
+    EventName hookEvent;
 }

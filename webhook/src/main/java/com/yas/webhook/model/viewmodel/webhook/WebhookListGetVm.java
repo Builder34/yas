@@ -7,8 +7,8 @@ import java.util.List;
 
 @Data
 @Builder
-public class WebHookListGetVm {
-    List<WebHookVm> webhooks;
+public class WebhookListGetVm {
+    List<WebhookVm> webhooks;
     int pageNo;
     int pageSize;
     long totalElements;

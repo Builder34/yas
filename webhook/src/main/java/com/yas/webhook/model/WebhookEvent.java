@@ -31,7 +31,7 @@ public class WebhookEvent {
 
   @ManyToOne
   @JoinColumn(name = "webhook_id", updatable = false, insertable = false)
-  private WebHook webhook;
+  private Webhook webhook;
 
   @ManyToOne
   @JoinColumn(name = "event_id", updatable = false, insertable = false)
