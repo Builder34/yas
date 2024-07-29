@@ -26,6 +26,6 @@ public class Webhook extends AbstractAuditEntity {
   private Boolean isActive;
 
   @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "webhook")
-  List<WebhookEvent> hookEvents;
+  List<WebhookEvent> webhookEvents;
 
 }

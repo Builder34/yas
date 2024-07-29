@@ -11,5 +11,5 @@ public class WebhookVm {
     String secret;
     String contentType;
     Boolean isActive;
-    List<HookEventVm> hookEventVms;
+    List<WebhookEventVm> webhookEventVms;
 }
