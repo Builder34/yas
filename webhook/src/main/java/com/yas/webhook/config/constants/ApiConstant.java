@@ -2,6 +2,7 @@ package com.yas.webhook.config.constants;
 
 public final class ApiConstant {
     public static final String WEBHOOK_URL = "/backoffice/webhooks";
+    public static final String EVENT_URL = "/backoffice/events";
 
     public static final String CODE_200 = "200";
     public static final String OK = "Ok";
