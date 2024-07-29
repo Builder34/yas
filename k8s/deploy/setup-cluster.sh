@@ -10,12 +10,6 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 helm repo add jetstack https://charts.jetstack.io
-192.168.100.96:5000/yas/nginx:1.25.3
-192.168.100.96:5000/yas/keycloak:21.0.2
-192.168.100.96:5000/yas/swagger-ui:v4.16.0
-192.168.100.96:5000/yas/postgres:15-alpine
-192.168.100.96:5000/yas/zookeeper:2.2
-192.168.100.96:5000/yas/connect:2.2
 helm repo update
 
 #Read configuration value from cluster-config.yaml file
