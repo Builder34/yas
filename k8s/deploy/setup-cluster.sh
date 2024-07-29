@@ -10,6 +10,12 @@ helm repo add grafana https://grafana.github.io/helm-charts
 helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 helm repo add jetstack https://charts.jetstack.io
+192.168.100.96:5000/yas/nginx:1.25.3
+192.168.100.96:5000/yas/keycloak:21.0.2
+192.168.100.96:5000/yas/swagger-ui:v4.16.0
+192.168.100.96:5000/yas/postgres:15-alpine
+192.168.100.96:5000/yas/zookeeper:2.2
+192.168.100.96:5000/yas/connect:2.2
 helm repo update
 
 #Read configuration value from cluster-config.yaml file
@@ -23,11 +29,11 @@ GRAFANA_USERNAME GRAFANA_PASSWORD \
 
 # Install the postgres-operator
 helm upgrade --install postgres-operator postgres-operator-charts/postgres-operator \
- --create-namespace --namespace postgres
+ --create-namespace --namespace yas
 
 #Install postgresql
 helm upgrade --install postgres ./postgres/postgresql \
---create-namespace --namespace postgres \
+--create-namespace --namespace yas \
 --set replicas="$POSTGRESQL_REPLICAS" \
 --set username="$POSTGRESQL_USERNAME" \
 --set password="$POSTGRESQL_PASSWORD"
@@ -35,15 +41,15 @@ helm upgrade --install postgres ./postgres/postgresql \
 #Install pgadmin
 pg_admin_hostname="pgadmin.$DOMAIN" yq -i '.hostname=env(pg_admin_hostname)' ./postgres/pgadmin/values.yaml
 helm upgrade --install pgadmin ./postgres/pgadmin \
---create-namespace --namespace postgres \
+--create-namespace --namespace yas \
 
 #Install strimzi-kafka-operator
 helm upgrade --install kafka-operator strimzi/strimzi-kafka-operator \
---create-namespace --namespace kafka
+--create-namespace --namespace yas
 
 #Install kafka and postgresql connector
 helm upgrade --install kafka-cluster ./kafka/kafka-cluster \
---create-namespace --namespace kafka \
+--create-namespace --namespace yas \
 --set kafka.replicas="$KAFKA_REPLICAS" \
 --set zookeeper.replicas="$ZOOKEEPER_REPLICAS" \
 --set postgresql.username="$POSTGRESQL_USERNAME" \
@@ -52,28 +58,28 @@ helm upgrade --install kafka-cluster ./kafka/kafka-cluster \
 #Install akhq
 akhq_hostname="akhq.$DOMAIN" yq -i '.hostname=env(akhq_hostname)' ./kafka/akhq.values.yaml
 helm upgrade --install akhq akhq/akhq \
---create-namespace --namespace kafka \
+--create-namespace --namespace yas \
 --values ./kafka/akhq.values.yaml
 
 #Install elastic-operator
 helm upgrade --install elastic-operator elastic/eck-operator \
- --create-namespace --namespace elasticsearch
+ --create-namespace --namespace yas
 
 # Install elasticsearch-cluster
 helm upgrade --install elasticsearch-cluster ./elasticsearch/elasticsearch-cluster \
---create-namespace --namespace elasticsearch \
+--create-namespace --namespace yas \
 --set elasticsearch.replicas="$ELASTICSEARCH_REPLICAES" \
 --set kibana.ingress.hostname="kibana.$DOMAIN"
 
 #Install CRD keycloak
-kubectl create namespace keycloak
-kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/21.1.2/kubernetes/keycloaks.k8s.keycloak.org-v1.yml
-kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/21.1.2/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml
-kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/21.1.2/kubernetes/kubernetes.yml -n keycloak
+kubectl create namespace yas
+kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/21.1.2/kubernetes/keycloaks.k8s.keycloak.org-v1.yml -n yas
+kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/21.1.2/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml -n yas
+kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/21.1.2/kubernetes/kubernetes.yml -n yas
 
 # Install keycloak
 helm upgrade --install keycloak ./keycloak/keycloak \
---namespace keycloak \
+--namespace yas \
 --set postgresql.username="$POSTGRESQL_USERNAME" \
 --set postgresql.password="$POSTGRESQL_PASSWORD" \
 --set hostname="identity.$DOMAIN" \
@@ -82,17 +88,17 @@ helm upgrade --install keycloak ./keycloak/keycloak \
 
 #Install loki
 helm upgrade --install loki grafana/loki \
- --create-namespace --namespace observability \
+ --create-namespace --namespace yas \
  -f ./observability/loki.values.yaml
 
 #Install tempo
 helm upgrade --install tempo grafana/tempo \
---create-namespace --namespace observability \
+--create-namespace --namespace yas \
 -f ./observability/tempo.values.yaml
 
 #Install cert manager
 helm upgrade --install cert-manager jetstack/cert-manager \
-  --namespace cert-manager \
+  --namespace yas \
   --create-namespace \
   --version v1.12.0 \
   --set installCRDs=true \
@@ -102,15 +108,15 @@ helm upgrade --install cert-manager jetstack/cert-manager \
 
 #Install opentelemetry-operator
 helm upgrade --install opentelemetry-operator open-telemetry/opentelemetry-operator \
---create-namespace --namespace observability
+--create-namespace --namespace yas
 
 #Install opentelemetry-collector
 helm upgrade --install opentelemetry-collector ./observability/opentelemetry \
---create-namespace --namespace observability
+--create-namespace --namespace yas
 
 #Install promtail
 helm upgrade --install promtail grafana/promtail \
---create-namespace --namespace observability \
+--create-namespace --namespace yas \
 --values ./observability/promtail.values.yaml
 
 #Install prometheus + grafana
@@ -118,17 +124,17 @@ grafana_hostname="grafana.$DOMAIN" yq -i '.hostname=env(grafana_hostname)' ./obs
 postgresql_username="$POSTGRESQL_USERNAME" yq -i '.grafana."grafana.ini".database.user=env(postgresql_username)' ./observability/prometheus.values.yaml
 postgresql_password="$POSTGRESQL_PASSWORD" yq -i '.grafana."grafana.ini".database.password=env(postgresql_password)' ./observability/prometheus.values.yaml
 helm upgrade --install prometheus prometheus-community/kube-prometheus-stack \
- --create-namespace --namespace observability \
+ --create-namespace --namespace yas \
 -f ./observability/prometheus.values.yaml \
 
 #Install grafana operator
 helm upgrade --install grafana-operator oci://ghcr.io/grafana-operator/helm-charts/grafana-operator \
 --version v5.0.2 \
---create-namespace --namespace observability
+--create-namespace --namespace yas
 
 #Add datasource and dashboard to grafana
 helm upgrade --install grafana ./observability/grafana \
---create-namespace --namespace observability \
+--create-namespace --namespace yas \
 --set hotname="grafana.$DOMAIN" \
 --set grafana.username="$GRAFANA_USERNAME" \
 --set grafana.password="$GRAFANA_PASSWORD" \
@@ -136,4 +142,4 @@ helm upgrade --install grafana ./observability/grafana \
 --set postgresql.password="$POSTGRESQL_PASSWORD"
 
 helm upgrade --install zookeeper ./zookeeper \
- --namespace zookeeper --create-namespace
+ --namespace yas --create-namespace
