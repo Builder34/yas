@@ -13,16 +13,7 @@ helm repo add jetstack https://charts.jetstack.io
 helm repo update
 
 #Read configuration value from cluster-config.yaml file
-read -rd '' DOMAIN POSTGRESQL_REPLICAS POSTGRESQL_USERNAME POSTGRESQL_PASSWORD \
-KAFKA_REPLICAS ZOOKEEPER_REPLICAS \
-ELASTICSEARCH_REPLICAES \
-KEYCLOAK_BACKOFFICE_REDIRECT_URL KEYCLOAK_STOREFRONT_REDIRECT_URL \
-GRAFANA_USERNAME GRAFANA_PASSWORD \
-< <(yq -r '.domain, .postgresql.replicas, .postgresql.username,.postgresql.password,
-.kafka.replicas, .zookeeper.replicas,
-.elasticsearch.replicas,
-.keycloak.backofficeRedirectUrl,.keycloak.storefrontRedirectUrl,
-.grafana.username,.grafana.password' ./cluster-config.yaml)
+read -rd '' DOMAIN POSTGRESQL_REPLICAS POSTGRESQL_USERNAME POSTGRESQL_PASSWORD KAFKA_REPLICAS ZOOKEEPER_REPLICAS ELASTICSEARCH_REPLICAES KEYCLOAK_BACKOFFICE_REDIRECT_URL KEYCLOAK_STOREFRONT_REDIRECT_URL GRAFANA_USERNAME GRAFANA_PASSWORD < <(yq -r '.domain,.postgresql.replicas,.postgresql.username,.postgresql.password,.kafka.replicas,.zookeeper.replicas,.elasticsearch.replicas,.keycloak.backofficeRedirectUrl,.keycloak.storefrontRedirectUrl,.grafana.username,.grafana.password' ./cluster-config.yaml)
 
 # Install the postgres-operator
 helm upgrade --install postgres-operator postgres-operator-charts/postgres-operator \
