@@ -10,7 +10,7 @@ const sendRequest = async (
   method: string,
   endpoint: string,
   data: any = null,
-  contentType: string | null = null
+  contentType: string | null = null,
 ) => {
   const defaultContentType = 'application/json; charset=UTF-8';
   const requestOptions: RequestOptions = {
@@ -28,7 +28,9 @@ const sendRequest = async (
   }
 
   try {
-    const response = await fetch(endpoint, method === 'GET' ? undefined : requestOptions);
+    // let APP_BASE_URL = 'http://backoffice.yas.local.com';
+    let APP_BASE_URL = '';
+    const response = await fetch(APP_BASE_URL + endpoint, method === 'GET' ? undefined : requestOptions);
 
     // Workaround to manually redirect in case of CORS error
     if (response.type == 'cors' && response.redirected) {

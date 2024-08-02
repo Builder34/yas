@@ -4,7 +4,11 @@ FROM node:16-alpine AS deps
 RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
-COPY package.json package-lock.json ./ 
+ENV NPM_CONFIG_TIMEOUT=300000
+RUN rm -rf .npm
+RUN npm cache clean --force
+COPY package.json package-lock.json ./
+RUN npm config set registry https://mirrors.huaweicloud.com/repository/npm
 RUN npm ci
 
 # Rebuild the source code only when needed
@@ -35,7 +39,7 @@ RUN adduser --system --uid 1001 nextjs
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./package.json
 
-# Automatically leverage output traces to reduce image size 
+# Automatically leverage output traces to reduce image size
 # https://nextjs.org/docs/advanced-features/output-file-tracing
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
