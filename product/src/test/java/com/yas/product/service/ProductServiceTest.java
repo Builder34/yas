@@ -174,7 +174,7 @@ class ProductServiceTest {
     void getProduct_whenProductIdValid_shouldSuccess() {
         generateTestData();
         List<Product> productDbList = productRepository.findAll();
-        assertNotNull(productService.getProductById(productDbList.getFirst().getId()));
+        assertNotNull(productService.getProductById(productDbList.get(0).getId()));
     }
 
     @Test
@@ -232,7 +232,7 @@ class ProductServiceTest {
     @Test
     void deleteProduct_givenProductIdValid_thenSuccess() {
         generateTestData();
-        Long id = productRepository.findAll().getFirst().getId();
+        Long id = productRepository.findAll().get(0).getId();
         productService.deleteProduct(id);
         Optional<Product> result = productRepository.findById(id);
         // Soft delete, set published to false
@@ -257,7 +257,7 @@ class ProductServiceTest {
 
         // Assert result
         assertEquals(1, result.productContent().size());
-        ProductThumbnailGetVm thumbnailGetVm = result.productContent().getFirst();
+        ProductThumbnailGetVm thumbnailGetVm = result.productContent().get(0);
         assertEquals("product2", thumbnailGetVm.name());
         assertEquals("slug2", thumbnailGetVm.slug());
         assertEquals(10.0, thumbnailGetVm.price());

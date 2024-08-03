@@ -16,6 +16,14 @@ const nextConfig = {
         source: '/oauth2/:path*',
         destination: 'http://backoffice.yas.local.com/oauth2/:path*',
       },
+      {
+        source: '/realms/:path*',
+        destination: 'http://identity.yas.local.com/realms/:path*',
+      },
+      {
+        source: '/login/:path*',
+        destination: 'http://identity.yas.local.com/login/:path*',
+      },
     ];
   },
 };

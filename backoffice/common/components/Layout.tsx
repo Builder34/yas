@@ -160,7 +160,7 @@ const Sidebar = (menu: MenuProps) => {
           >
             <span className="fa fa-user"></span> Customers
           </Link>
-          <ul className="collapse list-unstyled" id="customerSubmenu">
+          <ul className="collapse show list-unstyled" id="customerSubmenu">
             <ListItem
               data={menu_customer_item_data}
               childActive={menu.childActive}
@@ -180,7 +180,7 @@ const Sidebar = (menu: MenuProps) => {
           >
             <span className="fa fa-shopping-cart"></span> Sales
           </Link>
-          <ul className="collapse list-unstyled" id="salesSubmenu">
+          <ul className="collapse show list-unstyled" id="salesSubmenu">
             <ListItem
               data={menu_sale_item_data}
               childActive={menu.childActive}
@@ -203,7 +203,7 @@ const Sidebar = (menu: MenuProps) => {
           >
             <span className="fa fa-location-arrow"></span> Location
           </Link>
-          <ul className="collapse list-unstyled" id="locationSubmenu">
+          <ul className="collapse show list-unstyled" id="locationSubmenu">
             <ListItem
               data={menu_location_item_data}
               childActive={menu.childActive}
@@ -226,7 +226,7 @@ const Sidebar = (menu: MenuProps) => {
           >
             <span className="fa fa-archive"></span> Inventory
           </Link>
-          <ul className="collapse list-unstyled" id="inventorySubmenu">
+          <ul className="collapse show list-unstyled" id="inventorySubmenu">
             <ListItem
               data={menu_inventory_item_data}
               childActive={menu.childActive}
@@ -246,7 +246,7 @@ const Sidebar = (menu: MenuProps) => {
           >
             <span className="fa fa-percent"></span> Tax
           </Link>
-          <ul className="collapse list-unstyled" id="taxSubmenu">
+          <ul className="collapse show list-unstyled" id="taxSubmenu">
             <ListItem
               data={menu_tax_item_data}
               childActive={menu.childActive}
@@ -266,7 +266,7 @@ const Sidebar = (menu: MenuProps) => {
           >
             <span className="fa fa-cog"></span> System
           </Link>
-          <ul className="collapse list-unstyled" id="systemSubmenu">
+          <ul className="collapse show list-unstyled" id="systemSubmenu">
             <ListItem
               data={menu_system_item_data}
               childActive={menu.childActive}

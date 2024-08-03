@@ -6,13 +6,17 @@ import { ProductVariation } from '../models/ProductVariation';
 import { ProductsGet } from '../models/ProductsGet';
 
 export async function getFeaturedProducts(pageNo: number): Promise<ProductFeature> {
-  const response = await fetch(`/api/product/storefront/products/featured?pageNo=${pageNo}`);
-  return response.json();
+  const res = await fetch(`/api/product/storefront/products/featured?pageNo=${pageNo}`);
+  console.log(res)
+  if (res.status >= 200 && res.status < 300) return res.json();
+  return Promise.reject(res);
 }
 
 export async function getProductDetail(slug: string): Promise<ProductDetail> {
-  const response = await fetch('/api/product/storefront/product/' + slug);
-  return response.json();
+  const res = await fetch(`/api/product/storefront/product/${slug}`);
+  console.log(res)
+  if (res.status >= 200 && res.status < 300) return res.json();
+  return Promise.reject(res);
 }
 
 export async function getProductOptionValues(productId: number): Promise<ProductOptionValueGet[]> {
@@ -25,7 +29,8 @@ export async function getProductOptionValues(productId: number): Promise<Product
 
 export async function getProductByMultiParams(queryString: string): Promise<ProductAll> {
   const res = await fetch(`/api/product/storefront/products?${queryString}`);
-  return res.json();
+  if (res.status >= 200 && res.status < 300) return res.json();
+  return Promise.reject(res);
 }
 
 export async function getProductVariationsByParentId(

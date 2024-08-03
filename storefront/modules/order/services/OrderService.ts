@@ -4,7 +4,7 @@ import { Order } from '../models/Order';
 import { OrderGetVm } from '../models/OrderGetVm';
 
 export async function createOrder(order: Order): Promise<Order | null> {
-  const response = await fetch('/api/order/storefront/orders', {
+  const response = await fetch(`/api/order/storefront/orders`, {
     method: 'POST',
     body: JSON.stringify(order),
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
@@ -29,7 +29,7 @@ export async function getMyOrders(
 }
 
 export async function createCheckout(checkout: Checkout): Promise<Checkout | null> {
-  const response = await fetch('/api/order/storefront/checkouts', {
+  const response = await fetch(`/api/order/storefront/checkouts`, {
     method: 'POST',
     body: JSON.stringify(checkout),
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
@@ -41,7 +41,7 @@ export async function createCheckout(checkout: Checkout): Promise<Checkout | nul
 }
 
 export async function getCheckoutById(id: string) {
-  const response = await fetch('/api/order/storefront/checkouts/' + id, {
+  const response = await fetch(`/api/order/storefront/checkouts/${id}`, {
     method: 'GET',
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
   });

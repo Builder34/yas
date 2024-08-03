@@ -14,7 +14,7 @@ export async function addToCart(addToCart: AddToCartModel[]): Promise<Cart> {
 }
 
 export async function getCart(): Promise<Cart> {
-  const response = await fetch('/api/cart/storefront/carts', {
+  const response = await fetch(`/api/cart/storefront/carts`, {
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
   });
   if (response.status >= 200 && response.status < 300) return await response.json();
@@ -29,7 +29,7 @@ export async function getCartProductThumbnail(ids: number[]): Promise<ProductThu
 }
 
 export async function removeProductInCart(productId: number) {
-  const response = await fetch('/api/cart/storefront/cart-item?productId=' + productId, {
+  const response = await fetch(`/api/cart/storefront/cart-item?productId=${productId}`, {
     method: 'DELETE',
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
   });
@@ -38,7 +38,7 @@ export async function removeProductInCart(productId: number) {
 }
 
 export async function updateCart(updateCartBody: AddToCartModel): Promise<UpdateCartModel> {
-  const response = await fetch('/api/cart/cart-item', {
+  const response = await fetch(`/api/cart/cart-item`, {
     method: 'PUT',
     body: JSON.stringify(updateCartBody),
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
@@ -50,7 +50,7 @@ export async function updateCart(updateCartBody: AddToCartModel): Promise<Update
 }
 
 export async function getNumberCartItems(): Promise<number> {
-  const response = await fetch('/api/cart/storefront/count-cart-items', {
+  const response = await fetch(`/api/cart/storefront/count-cart-items`, {
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
   });
   if (response.status >= 200 && response.status < 300) return await response.json();

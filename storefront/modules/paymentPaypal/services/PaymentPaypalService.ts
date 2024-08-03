@@ -5,7 +5,7 @@ import { CapturePaymentPaypalResponse } from '@/modules/paymentPaypal/models/Cap
 export async function initPaymentPaypal(
   paymentPaypalRequest: InitPaymentPaypalRequest
 ): Promise<InitPaymentPaypalResponse> {
-  const res = await fetch('/api/payment-paypal/init', {
+  const res = await fetch(`/api/payment-paypal/init`, {
     method: 'POST',
     body: JSON.stringify(paymentPaypalRequest),
     headers: { 'Content-type': 'application/json; charset=UTF-8' },

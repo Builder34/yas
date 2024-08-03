@@ -10,10 +10,19 @@ helm repo add grafana "https://helm-charts.itboon.top/grafana" --force-update
 helm repo add prometheus-community "https://helm-charts.itboon.top/prometheus-community" --force-update
 helm repo add open-telemetry https://open-telemetry.github.io/opentelemetry-helm-charts
 helm repo add jetstack https://charts.jetstack.io
+helm repo add keycloak oci://registry-1.docker.io/bitnamicharts/keycloak
 helm repo update
 
 #Read configuration value from cluster-config.yaml file
-read -rd '' DOMAIN POSTGRESQL_REPLICAS POSTGRESQL_USERNAME POSTGRESQL_PASSWORD KAFKA_REPLICAS ZOOKEEPER_REPLICAS ELASTICSEARCH_REPLICAES KEYCLOAK_BACKOFFICE_REDIRECT_URL KEYCLOAK_STOREFRONT_REDIRECT_URL GRAFANA_USERNAME GRAFANA_PASSWORD < <(yq -r '.domain,.postgresql.replicas,.postgresql.username,.postgresql.password,.kafka.replicas,.zookeeper.replicas,.elasticsearch.replicas,.keycloak.backofficeRedirectUrl,.keycloak.storefrontRedirectUrl,.grafana.username,.grafana.password' ./cluster-config.yaml)
+read -rd '' DOMAIN \
+POSTGRESQL_REPLICAS POSTGRESQL_USERNAME POSTGRESQL_PASSWORD \
+KAFKA_REPLICAS ZOOKEEPER_REPLICAS ELASTICSEARCH_REPLICAES \
+KEYCLOAK_BACKOFFICE_REDIRECT_URL KEYCLOAK_STOREFRONT_REDIRECT_URL \
+GRAFANA_USERNAME GRAFANA_PASSWORD < <(yq -r '.domain,
+.postgresql.replicas,.postgresql.username,.postgresql.password,
+.kafka.replicas,.zookeeper.replicas,.elasticsearch.replicas,
+.keycloak.backofficeRedirectUrl,.keycloak.storefrontRedirectUrl,
+.grafana.username,.grafana.password' ./cluster-config.yaml)
 
 # Install the postgres-operator
 helm upgrade --install postgres-operator postgres-operator-charts/postgres-operator \
@@ -58,12 +67,6 @@ helm upgrade --install elasticsearch-cluster ./elasticsearch/elasticsearch-clust
 --create-namespace --namespace yas \
 --set elasticsearch.replicas="$ELASTICSEARCH_REPLICAES" \
 --set kibana.ingress.hostname="kibana.$DOMAIN"
-
-#Install CRD keycloak
-kubectl create namespace yas
-kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/21.1.2/kubernetes/keycloaks.k8s.keycloak.org-v1.yml -n yas
-kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/21.1.2/kubernetes/keycloakrealmimports.k8s.keycloak.org-v1.yml -n yas
-kubectl apply -f https://raw.githubusercontent.com/keycloak/keycloak-k8s-resources/21.1.2/kubernetes/kubernetes.yml -n yas
 
 # Install keycloak
 helm upgrade --install keycloak ./keycloak/keycloak \

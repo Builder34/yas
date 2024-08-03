@@ -22,7 +22,7 @@ export async function getRatingsByProductId(
 }
 
 export async function createRating(rating: RatingPost): Promise<Rating | null> {
-  const response = await fetch('/api/rating/storefront/ratings', {
+  const response = await fetch(`/api/rating/storefront/ratings`, {
     method: 'POST',
     body: JSON.stringify(rating),
     headers: { 'Content-type': 'application/json; charset=UTF-8' },
