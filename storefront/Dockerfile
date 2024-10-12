@@ -8,7 +8,7 @@ ENV NPM_CONFIG_TIMEOUT=300000
 RUN rm -rf .npm
 RUN npm cache clean --force
 COPY package.json package-lock.json ./
-RUN npm config set registry https://mirrors.huaweicloud.com/repository/npm
+RUN npm config set registry http://mirrors.cloud.tencent.com/npm/
 RUN npm ci
 
 # Rebuild the source code only when needed

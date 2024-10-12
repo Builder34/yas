@@ -1,7 +1,9 @@
 import { Category } from '../models/Category';
 
 export async function getCategories(): Promise<Category[]> {
-  const response = await fetch(`/api/product/storefront/categories`);
+  let url = `/api/product/storefront/categories`;
+  console.log("==> getCategories url:" + url)
+  const response = await fetch(url);
   return await response.json();
 }
 
